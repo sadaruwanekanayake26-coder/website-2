@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Mashiii! 💕</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #fed6e3 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        .font-handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.15);
+        }
+
+        /* Pulse animation */
+        @keyframes gentle-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .animate-gentle-pulse {
+            animation: gentle-pulse 2s infinite ease-in-out;
+        }
+
+        /* Floating particles background */
+        .floating-heart {
+            position: absolute;
+            pointer-events: none;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Knife cutting animation line */
+        .cut-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 0%;
+            background: #f43f5e;
+            box-shadow: 0 0 10px #f43f5e;
+            transition: height 0.6s ease-in-out;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+
+        /* Cake slicing effect */
+        .cake-left, .cake-right {
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .sliced .cake-left {
+            transform: translateX(-25px) rotate(-4deg);
+        }
+        .sliced .cake-right {
+            transform: translateX(25px) rotate(4deg);
+        }
+
+        /* Typewriter cursor */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Custom Stick Figure Animation Styles */
+        #stickmanCanvas {
+            touch-action: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f472b6;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 relative overflow-hidden text-slate-800">
+
+    <!-- Floating Background Hearts Container -->
+    <div id="heartsBg" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-lg mx-auto z-10 relative">
+
+        <!-- SCENE 1: Welcome & Heading -->
+        <section id="scene1" class="glass-card rounded-3xl p-8 text-center transition-all duration-700 transform scale-100 opacity-100 flex flex-col items-center justify-center min-h-[480px]">
+            <div class="relative mb-6">
+                <span class="text-6xl animate-bounce inline-block">👑</span>
+                <div class="absolute -top-2 -right-2 bg-rose-500 text-white text-xs px-2 py-1 rounded-full animate-pulse">Special Day!</div>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl font-bold text-rose-600 mb-2 tracking-tight">
+                Happy Birthday
+            </h1>
+            <h2 class="text-5xl sm:text-6xl font-handwriting text-pink-500 mb-6 font-bold">
+                Mashiii! 💕
+            </h2>
+
+            <p class="text-slate-600 mb-8 text-lg">
+                ඔයාගේ විශේෂ දවස වෙනුවෙන් පොඩි Surprise එකක් හදලා තියෙනවා! ready ද බලන්න? ✨
+            </p>
+
+            <button onclick="goToScene(2)" class="animate-gentle-pulse bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-xl py-4 px-8 rounded-full shadow-lg hover:shadow-rose-300/50 transition-all transform hover:-translate-y-1 active:translate-y-0 flex items-center gap-3">
+                <span>Click to Celebrate 🎉</span>
+                <i class="fa-solid fa-arrow-right text-lg"></i>
+            </button>
+        </section>
+
+        <!-- SCENE 2: Stick Figure Meme Animation (19 vs 20) -->
+        <section id="scene2" class="glass-card rounded-3xl p-6 text-center hidden transition-all duration-700 opacity-0 transform translate-y-10 min-h-[480px] flex flex-col justify-between">
+            <div>
+                <span class="bg-pink-100 text-pink-600 font-semibold px-4 py-1.5 rounded-full text-sm inline-block mb-3">
+                    Bye Bye 19! Hello 20! 🎂
+                </span>
+                <h3 class="text-2xl font-bold text-slate-800 mb-1">Welcome to Age 20!</h3>
+                <p class="text-xs text-slate-500">පහල තියෙන "Kick 19 Off!" Button එක Click කරන්න 🦶</p>
+            </div>
+
+            <!-- Stick Figure Canvas -->
+            <div class="relative w-full my-4 bg-amber-50/50 rounded-2xl border-2 border-pink-100 p-2 overflow-hidden flex items-center justify-center">
+                <canvas id="stickmanCanvas" width="340" height="240" class="max-w-full rounded-xl"></canvas>
+            </div>
+
+            <div class="space-y-3">
+                <button id="kickBtn" onclick="triggerKickAnimation()" class="w-full bg-rose-500 hover:bg-rose-600 text-white font-bold text-lg py-3 px-6 rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                    <span>Kick 19 Off! 🦶💥</span>
+                </button>
+
+                <button id="scene2NextBtn" onclick="goToScene(3)" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-lg py-3 px-6 rounded-2xl shadow-md transition-all hidden animate-bounce flex items-center justify-center gap-2">
+                    <span>Next: Cut the Cake! 🍰</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- SCENE 3: Cake Cutting -->
+        <section id="scene3" class="glass-card rounded-3xl p-6 text-center hidden transition-all duration-700 opacity-0 transform translate-y-10 min-h-[480px] flex flex-col justify-between">
+            <div>
+                <span class="bg-rose-100 text-rose-600 font-semibold px-4 py-1.5 rounded-full text-sm inline-block mb-2">
+                    Cake Time 🎂
+                </span>
+                <h3 class="text-2xl sm:text-3xl font-bold text-slate-800">Cut Your Birthday Cake!</h3>
+                <p class="text-sm text-slate-500 mt-1">කේක් එක උඩ Tap හෝ Swipe කරන්න 🔪</p>
+            </div>
+
+            <!-- Bento Cake Graphic -->
+            <div class="relative my-6 flex items-center justify-center cursor-pointer select-none group" id="cakeInteractive" onclick="cutCake()">
+                <!-- Cut Line Indicator -->
+                <div id="cutLine" class="cut-line"></div>
+
+                <!-- Bento Box Backdrop -->
+                <div id="bentoBox" class="w-64 h-64 sm:w-72 sm:h-72 bg-amber-100/80 rounded-3xl p-4 shadow-inner border-2 border-amber-200 flex items-center justify-center relative overflow-hidden transition-all duration-300 group-hover:scale-105">
+                    
+                    <!-- Knife Icon Overlay -->
+                    <div id="knifeIcon" class="absolute top-2 right-4 text-3xl text-slate-400 rotate-45 transition-transform duration-300 pointer-events-none z-30">
+                        🔪
+                    </div>
+
+                    <!-- Cake Main Container -->
+                    <div id="cakeBody" class="w-52 h-52 sm:w-56 sm:h-56 bg-white rounded-full border-4 border-slate-100 shadow-xl relative flex items-center justify-center overflow-hidden">
+                        
+                        <!-- Left Half of Cake -->
+                        <div class="cake-left absolute left-0 top-0 w-1/2 h-full bg-white flex items-center justify-end border-r border-dashed border-rose-200 pr-1">
+                            <div class="text-center transform translate-x-3">
+                                <div class="text-xs font-bold text-slate-700">06.04.04</div>
+                                <div class="text-xl">🧍‍♂️</div>
+                                <div class="text-[10px] font-bold bg-pink-100 px-1 rounded text-pink-600">20</div>
+                                <div class="text-rose-500 text-xs">❤️</div>
+                            </div>
+                        </div>
+
+                        <!-- Right Half of Cake -->
+                        <div class="cake-right absolute right-0 top-0 w-1/2 h-full bg-white flex items-center justify-start border-l border-dashed border-rose-200 pl-1">
+                            <div class="text-center transform -translate-x-3">
+                                <div class="text-xs font-bold text-slate-700">✨</div>
+                                <div class="text-xl">🧍‍♀️</div>
+                                <div class="text-[10px] font-bold bg-pink-100 px-1 rounded text-pink-600">19</div>
+                                <div class="text-rose-500 text-xs">❤️</div>
+                            </div>
+                        </div>
+
+                        <!-- Outer heart decor on cake -->
+                        <div class="absolute top-3 text-rose-500 text-xs">❤️</div>
+                        <div class="absolute bottom-3 text-rose-500 text-xs">❤️</div>
+                        <div class="absolute left-3 text-rose-500 text-xs">❤️</div>
+                        <div class="absolute right-3 text-rose-500 text-xs">❤️</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <p id="cakeStatusText" class="text-rose-500 font-medium text-sm animate-pulse">
+                    ✨ Tap on the cake to make the wish & cut! ✨
+                </p>
+
+                <button id="scene3NextBtn" onclick="goToScene(4)" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold text-lg py-3 px-6 rounded-2xl shadow-md transition-all hidden animate-bounce flex items-center justify-center gap-2">
+                    <span>See Special Memory & Message ❤️</span>
+                    <i class="fa-solid fa-heart"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- SCENE 4: Couple Photo & Typewriter Wish -->
+        <section id="scene4" class="glass-card rounded-3xl p-6 text-center hidden transition-all duration-700 opacity-0 transform translate-y-10 min-h-[520px] flex flex-col justify-between">
+            <div>
+                <span class="bg-rose-100 text-rose-600 font-semibold px-4 py-1.5 rounded-full text-xs inline-block mb-2">
+                    Forever & Always 💑
+                </span>
+                <h3 class="text-2xl font-bold text-slate-800">To My Favourite Person 💕</h3>
+            </div>
+
+            <!-- Couple Photo Frame -->
+            <div class="relative my-4 mx-auto w-full max-w-[280px]">
+                <div class="p-3 bg-white rounded-2xl shadow-xl border-4 border-rose-200 transform -rotate-1 transition-transform hover:rotate-0 duration-300 relative">
+                    
+                    <!-- Decorative Tape -->
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 bg-pink-200/70 rotate-2 rounded-sm shadow-sm z-10"></div>
+                    
+                    <!-- Photo Display / Placeholder -->
+                    <div class="relative h-56 rounded-xl overflow-hidden bg-rose-50 flex flex-col items-center justify-center border border-rose-100 group">
+                        
+                        <!-- Custom Uploadable Image (User can upload their photo) -->
+                        <img id="couplePhoto" src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80" alt="Couple Photo" class="w-full h-full object-cover">
+
+                        <!-- Photo Overlay Gradient -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-rose-900/40 via-transparent to-transparent"></div>
+
+                        <!-- Custom Image Upload Button overlay -->
+                        <label for="photoUpload" class="absolute bottom-2 right-2 bg-white/90 hover:bg-white text-rose-600 text-xs px-2.5 py-1.5 rounded-lg shadow cursor-pointer transition-all flex items-center gap-1 z-20">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Change</span>
+                        </label>
+                        <input type="file" id="photoUpload" accept="image/*" class="hidden" onchange="loadUserPhoto(event)">
+
+                        <div class="absolute bottom-2 left-2 text-white text-xs font-handwriting text-lg drop-shadow">
+                            Us Together ❤️
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Typewriter Message Box -->
+            <div class="bg-rose-50/80 rounded-2xl p-4 border border-rose-200 text-left min-h-[130px] flex items-center relative shadow-inner">
+                <div class="text-slate-700 text-sm sm:text-base leading-relaxed font-medium">
+                    <p id="typewriterText" class="inline typing-cursor"></p>
+                </div>
+            </div>
+
+            <!-- Replay / Action Buttons -->
+            <div class="mt-4 flex gap-2">
+                <button onclick="shareWish()" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold py-3 px-4 rounded-xl shadow transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Share Love</span>
+                </button>
+
+                <button onclick="restartApp()" class="bg-rose-100 hover:bg-rose-200 text-rose-600 text-sm font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Replay</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- State Management ---
+        let currentScene = 1;
+        let audioCtx = null;
+
+        // Sound Effects Generator using Web Audio API
+        function playSound(type) {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'kick') {
+                    // Funny slide/kick sound
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.15);
+                    osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.3);
+                    gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.35);
+                } else if (type === 'cheer') {
+                    // Happy chord sound
+                    const freqs = [261.63, 329.63, 392.00, 523.25];
+                    freqs.forEach((f, i) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.type = 'sine';
+                        o.frequency.value = f;
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        g.gain.setValueAtTime(0.1, audioCtx.currentTime + (i * 0.05));
+                        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8 + (i * 0.05));
+                        o.start(audioCtx.currentTime + (i * 0.05));
+                        o.stop(audioCtx.currentTime + 0.8 + (i * 0.05));
+                    });
+                } else if (type === 'pop') {
+                    // Soft pop sound
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.08);
+                    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.08);
+                }
+            } catch (e) {
+                console.log("Audio play blocked or unsupported");
+            }
+        }
+
+        // Floating Hearts Background Animation
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsBg');
+            const hearts = ['❤️', '💖', '🌸', '✨', '💕', '🎂'];
+            
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (4 + Math.random() * 6) + 's';
+                heart.style.animationDelay = (Math.random() * 5) + 's';
+                heart.style.fontSize = (16 + Math.random() * 20) + 'px';
+                container.appendChild(heart);
+            }
+        }
+        createFloatingHearts();
+
+        // Scene Transition Handler
+        function goToScene(sceneNum) {
+            playSound('pop');
+            const current = document.getElementById(scene${currentScene});
+            const next = document.getElementById(scene${sceneNum});
+
+            current.classList.add('opacity-0', 'scale-95');
+            
+            setTimeout(() => {
+                current.classList.add('hidden');
+                next.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    next.classList.remove('opacity-0', 'translate-y-10', 'scale-95');
+                    next.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+                    currentScene = sceneNum;
+
+                    if (sceneNum === 2) {
+                        initStickmanCanvas();
+                    } else if (sceneNum === 4) {
+                        startTypewriterMessage();
+                        triggerConfetti(2000);
+                        playSound('cheer');
+                    }
+                }, 50);
+            }, 400);
+        }
+
+        // --- SCENE 2: STICK FIGURE CANVAS ANIMATION ---
+        let canvas, ctx;
+        let stickState = {
+            guy20X: 100,
+            guy20Y: 140,
+            guy19X: 200,
+            guy19Y: 140,
+            guy19Rot: 0,
+            legKickAngle: 0,
+            cliffX: 220,
+            isKicking: false,
+            isFallen: false,
+            fallY: 0
+        };
+
+        function initStickmanCanvas() {
+            canvas = document.getElementById('stickmanCanvas');
+            ctx = canvas.getContext('2d');
+            resetStickmanState();
+            drawStickScene();
+        }
+
+        function resetStickmanState() {
+            stickState = {
+                guy20X: 110,
+                guy20Y: 140,
+                guy19X: 190,
+                guy19Y: 140,
+                guy19Rot: 0,
+                legKickAngle: 0,
+                cliffX: 215,
+                isKicking: false,
+                isFallen: false,
+                fallY: 0
+            };
+            document.getElementById('kickBtn').classList.remove('hidden');
+            document.getElementById('scene2NextBtn').classList.add('hidden');
+        }
+
+        function drawFlurkHead(x, y, label, isSad = false) {
+            // Flurk style bean-shaped head
+            ctx.save();
+            ctx.beginPath();
+            ctx.ellipse(x, y, 16, 13, 0, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
+
+            // Eyes
+            ctx.fillStyle = '#000000';
+            ctx.beginPath();
+            ctx.arc(x - 5, y - 2, 2, 0, Math.PI * 2);
+            ctx.arc(x + 5, y - 2, 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Mouth
+            ctx.beginPath();
+            if (isSad) {
+                ctx.arc(x, y + 6, 4, Math.PI, 0); // Frown
+            } else {
+                ctx.moveTo(x - 4, y + 4);
+                ctx.lineTo(x + 4, y + 4); // Neutral / smirk
+            }
+            ctx.stroke();
+
+            // Label above head
+            ctx.font = 'bold 12px Fredoka, sans-serif';
+            ctx.fillStyle = '#e11d48';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x, y - 20);
+
+            ctx.restore();
+        }
+
+        function drawStickScene() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. Draw Cliff & Background
+            ctx.fillStyle = '#fef3c7';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Cliff terrain
+            ctx.beginPath();
+            ctx.moveTo(0, 180);
+            ctx.lineTo(stickState.cliffX, 180);
+            // Jagged cliff edge
+            ctx.lineTo(stickState.cliffX - 10, 210);
+            ctx.lineTo(stickState.cliffX - 5, 240);
+            ctx.lineTo(0, 240);
+            ctx.closePath();
+            ctx.fillStyle = '#e5e7eb';
+            ctx.fill();
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#374151';
+            ctx.stroke();
+
+            // Decorative Hearts on ground
+            ctx.fillStyle = '#f43f5e';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('❤️', 40, 170);
+            ctx.fillText('❤️', 120, 175);
+
+            // 2. Draw Stick Figure "20" (The Kicker)
+            const g20X = stickState.guy20X;
+            const g20Y = stickState.guy20Y;
+
+            drawFlurkHead(g20X, g20Y - 15, "20", false);
+
+            // Body
+            ctx.beginPath();
+            ctx.moveTo(g20X, g20Y);
+            ctx.lineTo(g20X, g20Y + 25);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
+
+            // Arms
+            ctx.beginPath();
+            ctx.moveTo(g20X, g20Y + 8);
+            ctx.lineTo(g20X + 12, g20Y + 15);
+            ctx.moveTo(g20X, g20Y + 8);
+            ctx.lineTo(g20X - 10, g20Y + 18);
+            ctx.stroke();
+
+            // Left Leg (Standing)
+            ctx.beginPath();
+            ctx.moveTo(g20X, g20Y + 25);
+            ctx.lineTo(g20X - 8, g20Y + 40);
+            ctx.stroke();
+
+            // Right Leg (Kicking or Standing)
+            ctx.beginPath();
+            ctx.moveTo(g20X, g20Y + 25);
+            if (stickState.isKicking) {
+                // Kicking leg raised high
+                const legEndX = g20X + 30 * Math.cos(stickState.legKickAngle);
+                const legEndY = g20Y + 25 - 20 * Math.sin(stickState.legKickAngle);
+                ctx.lineTo(legEndX, legEndY);
+            } else {
+                ctx.lineTo(g20X + 8, g20Y + 40);
+            }
+            ctx.stroke();
+
+            // 3. Draw Stick Figure "19" (The Kicked)
+            ctx.save();
+            let g19X = stickState.guy19X;
+            let g19Y = stickState.guy19Y + stickState.fallY;
+
+            ctx.translate(g19X, g19Y);
+            ctx.rotate(stickState.guy19Rot);
+
+            drawFlurkHead(0, -15, "19", stickState.isFallen || stickState.isKicking);
+
+            // Body
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, 25);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = '#000000';
+            ctx.stroke();
+
+            // Arms (Flailing if falling)
+            ctx.beginPath();
+            if (stickState.isFallen) {
+                ctx.moveTo(0, 5);
+                ctx.lineTo(-15, -10);
+                ctx.moveTo(0, 5);
+                ctx.lineTo(15, -10);
+            } else {
+                ctx.moveTo(0, 8);
+                ctx.lineTo(-10, 18);
+                ctx.moveTo(0, 8);
+                ctx.lineTo(10, 18);
+            }
+            ctx.stroke();
+
+            // Legs
+            ctx.beginPath();
+            ctx.moveTo(0, 25);
+            ctx.lineTo(-8, 40);
+            ctx.moveTo(0, 25);
+            ctx.lineTo(8, 40);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function triggerKickAnimation() {
+            if (stickState.isKicking) return;
+            stickState.isKicking = true;
+            playSound('kick');
+
+            document.getElementById('kickBtn').classList.add('hidden');
+
+            let frame = 0;
+            const animInterval = setInterval(() => {
+                frame++;
+
+                // Step 1: 20 moves forward & raises leg
+                if (frame <= 10) {
+                    stickState.guy20X += 2;
+                    stickState.legKickAngle += 0.15;
+                } 
+                // Step 2: Contact! 19 gets kicked off cliff
+                else if (frame <= 35) {
+                    stickState.guy19X += 5;
+                    stickState.fallY += (frame - 10) * 0.8;
+                    stickState.guy19Rot += 0.15;
+                    stickState.isFallen = true;
+                } 
+                // Step 3: Finish fall animation
+                else {
+                    clearInterval(animInterval);
+                    triggerConfetti(1000);
+                    playSound('cheer');
+                    document.getElementById('scene2NextBtn').classList.remove('hidden');
+                }
+
+                drawStickScene();
+            }, 30);
+        }
+
+        // --- SCENE 3: CAKE CUTTING ---
+        let isCakeCut = false;
+
+        function cutCake() {
+            if (isCakeCut) return;
+            isCakeCut = true;
+
+            playSound('pop');
+            const cutLine = document.getElementById('cutLine');
+            const bentoBox = document.getElementById('bentoBox');
+            const statusText = document.getElementById('cakeStatusText');
+            const nextBtn = document.getElementById('scene3NextBtn');
+
+            // Animate Knife Cutting Down
+            cutLine.style.height = '100%';
+
+            setTimeout(() => {
+                // Slice cake open
+                bentoBox.classList.add('sliced');
+                playSound('cheer');
+                triggerConfetti(2500);
+
+                statusText.innerText = "Yay! Happy 20th Birthday Mashiii! 🎉";
+                statusText.classList.remove('animate-pulse');
+                statusText.classList.add('text-emerald-600', 'font-bold');
+
+                nextBtn.classList.remove('hidden');
+            }, 600);
+        }
+
+        // --- SCENE 4: TYPEWRITER & PHOTO ---
+        const wishMessage = Happy Birthday My Love, Mashiii! 💕🌸\n\nඔයාගේ 20 වෙනි උපන්දිනය මගෙත් එක්ක සැමරීමට ලැබීම මට ලොකු සතුටක්. ඔයාගේ හැම හීනයක්ම ඉෂ්ට වෙන, හැමදාම මගේ ළඟින් හිනාවෙලා ඉන්න පුළුවන් ලස්සනම ලස්සන කාලයක් මම ඔයාට ප්‍රාර්ථනා කරනවා!\n\nI love you so much forever & always! 🥰✨;
+
+        function startTypewriterMessage() {
+            const el = document.getElementById('typewriterText');
+            el.innerHTML = "";
+            let i = 0;
+
+            function type() {
+                if (i < wishMessage.length) {
+                    const char = wishMessage.charAt(i);
+                    if (char === '\n') {
+                        el.innerHTML += '<br>';
+                    } else {
+                        el.innerHTML += char;
+                    }
+                    i++;
+                    setTimeout(type, 45);
+                } else {
+                    el.classList.remove('typing-cursor');
+                }
+            }
+            type();
+        }
+
+        // Custom User Photo Upload
+        function loadUserPhoto(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('couplePhoto').src = e.target.result;
+                    playSound('pop');
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Confetti Burst Utility
+        function triggerConfetti(duration = 1500) {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#f43f5e', '#ec4899', '#fbbf24', '#34d399']
+                });
+            }
+        }
+
+        // Share Wish
+        function shareWish() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Happy Birthday Mashiii!',
+                    text: 'Celebrating Mashiii\'s 20th Birthday! 💕',
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                // Fallback copy link
+                const dummy = document.createElement('input');
+                document.body.appendChild(dummy);
+                dummy.value = window.location.href;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+                alert('Birthday Link Copied to Clipboard! 💌');
+            }
+        }
+
+        // Restart App
+        function restartApp() {
+            isCakeCut = false;
+            document.getElementById('cutLine').style.height = '0%';
+            document.getElementById('bentoBox').classList.remove('sliced');
+            document.getElementById('cakeStatusText').innerText = "✨ Tap on the cake to make the wish & cut! ✨";
+            document.getElementById('cakeStatusText').className = "text-rose-500 font-medium text-sm animate-pulse";
+            document.getElementById('scene3NextBtn').classList.add('hidden');
+            
+            goToScene(1);
+        }
+    </script>
+</body>
+</html>
